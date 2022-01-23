@@ -1,6 +1,11 @@
-import { useState } from "react";
+import './DiaryEditor.css';
+
+import { useRef, useState } from "react";
 
 const DiaryEditor = () => {
+
+    const authorInput = useRef(); // 마우스를 위에 useRef(); 위에 올리면 설명이 나오면서 MutableRefObject()를 저장한다는걸 알 수 있다. 이는 HTML DOM 요소에 접근할 수 있도록 해준다.
+    const contentInput = useRef();
 
     // const [author, setAuthor] = useState(""); // author : 상태(state) , setAuthor: 상태 변화를 주도하는 함수
     // const [content, setContent] = useState("");
@@ -23,7 +28,16 @@ const DiaryEditor = () => {
     };
 
     const handleSubmit = () => {
-        console.log(state);
+        if(state.author.length < 1) {
+            authorInput.current.focus();
+            return;
+        }
+
+        if(state.content.length < 5) {
+            contentInput.current.focus();
+            return;
+        }
+
         alert("저장 성공");
     };
 
@@ -31,10 +45,10 @@ const DiaryEditor = () => {
         <div className="DiaryEditor">
             <h2>오늘의 일기</h2>
             <div>
-                <input name="author" value={state.author} onChange={handleChangeState}/>
+                <input ref={authorInput} name="author" value={state.author} onChange={handleChangeState}/>
             </div>
             <div>
-                <textarea name="content" value={state.content} onChange={handleChangeState} />
+                <textarea ref={contentInput} name="content" value={state.content} onChange={handleChangeState} />
             </div>
             <div>
                 오늘의 감정점수 : <select name="emotion" value={state.emotion} onChange={handleChangeState}>
