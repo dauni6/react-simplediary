@@ -2,7 +2,7 @@ import './DiaryEditor.css';
 
 import { useRef, useState } from "react";
 
-const DiaryEditor = () => {
+const DiaryEditor = ({onCreate}) => {
 
     const authorInput = useRef(); // 마우스를 위에 useRef(); 위에 올리면 설명이 나오면서 MutableRefObject()를 저장한다는걸 알 수 있다. 이는 HTML DOM 요소에 접근할 수 있도록 해준다.
     const contentInput = useRef();
@@ -38,7 +38,14 @@ const DiaryEditor = () => {
             return;
         }
 
+        onCreate(state.author, state.content, state.emotion);
         alert("저장 성공");
+        // 초기화 하기
+        setState({
+            author: "",
+            content: "",
+            emotion: 1
+        });
     };
 
     return (
