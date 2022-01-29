@@ -25,10 +25,21 @@ function App() {
     setData([newItem, ...data]) //...data 를 통하여 원래 가지고 있던 데이터들을 나열하여 넣어줌.
   };
 
+  const onRemove = (targetId) => {
+    const newDiaryList = data.filter((it) => it.id != targetId); // filter를 통해 targetId과 같지 않은 data만 이루어진 새로운 diaryList를 만드는 것
+    setData(newDiaryList);
+  };
+
+  const onEdit = (targetId, newContent) => {
+      setData(
+        data.map((it) => it.id === targetId ? {...it, content: newContent} : it) // data에 map함수를 사용하여 모든 아이템을 순회하면서 해당 아이템의 id와 targetId가 같다면 해당 아이템의 나머지는 spread 연산자를 통해 그대로두고, content만 key:value로 바꿔주고 targetId와 같지 않으면 그대로 it을 넣어주면 된다.
+      )
+  };
+
   return (
     <div className="App">
       <DiaryEditor onCreate={onCreate} />  {/* props로 event 내려보내기 */}
-      <DiaryList diaryList={data} />
+      <DiaryList onEdit={onEdit} onRemove={onRemove} diaryList={data} />
     </div>
   );
 }
